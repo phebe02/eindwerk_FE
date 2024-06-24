@@ -27,7 +27,14 @@ const CreateGame = () => {
 
   return (
     <div className="flex flex-col items-center p-4 min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100">
-      <h1 className="text-3xl mb-4">Create Your Own Bingo Game</h1>
+      <a href="/">
+        <img
+          src="/roadtrip_game_logo.png"
+          alt="Logo"
+          className="absolute top-2 left-2 h-20"
+        />
+      </a>
+      <h1 className="text-2xl mb-4">Create Your Own Bingo Game</h1>
       <div className="mb-4">
         <label className="block mb-2 text-lg">Enter Title:</label>
         <input
@@ -97,6 +104,14 @@ const CreateGame = () => {
           Generate Bingo Card
         </button>
       )}
+      <div>
+        <button
+          className="absolute bottom-2 left-2 bg-orange-500 text-white px-4 py-2 rounded"
+          onClick={() => navigate("/")}
+        >
+          beginpagina
+        </button>
+      </div>
     </div>
   );
 };

@@ -141,7 +141,11 @@ const bingoReducer = (state = initialState, action) => {
         ...state,
         bingo: false,
       };
-
+    case "LOAD_SAVED_STATE":
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

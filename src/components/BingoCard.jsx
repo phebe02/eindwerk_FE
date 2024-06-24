@@ -29,7 +29,7 @@ const BingoCard = () => {
       !completedBingos.includes(`col${col}`)
     ) {
       dispatch(markItem(row, col));
-      setBingoChecked(false); // Reset bingoChecked to allow new bingos
+      setBingoChecked(false);
     }
   };
 
@@ -46,10 +46,10 @@ const BingoCard = () => {
 
   return (
     <body>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100 p-4 ">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100 p-2 ">
         <ConfettiComponent trigger={confettiTrigger} />
         {bingoMessage && (
-          <h1 className="text-4xl sm:text-5xl font-bold text-red-600 mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold text-red-600 mb-2">
             {bingoMessage}
           </h1>
         )}
@@ -87,18 +87,25 @@ const BingoCard = () => {
           </table>
         </div>
         {bingoMessage && (
-          <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 mt-6">
+          <div className="flex flex-row space-x-2 sm:space-x-4 ">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mb-2 sm:mb-0"
+              onClick={() => navigate("/")}
+            >
+              beginpagina
+            </button>
+
             <button
               onClick={handleReplay}
-              className="bg-blue-500 text-white px-4 py-2 rounded mb-2 sm:mb-0"
+              className="bg-orange-500 text-white px-4 py-2 rounded mb-2 sm:mb-0 hover:bg-orange-700"
             >
-              new game
+              nieuw spel
             </button>
             <button
               onClick={handleKeepPlaying}
-              className="bg-green-500 text-white px-4 py-2 rounded"
+              className="bg-green-500 text-white px-4 py-2 rounded mb-2 sm:mb-0 hover:bg-green-700"
             >
-              Keep Playing
+              blijf spelen
             </button>
           </div>
         )}

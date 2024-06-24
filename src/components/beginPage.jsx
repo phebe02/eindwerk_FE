@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Tooltip } from "react-tooltip";
+import HelpModal from "./HelpModal";
 
 const BeginPage = () => {
   const navigate = useNavigate();
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePlayClick = () => {
     navigate("/settings");
@@ -14,10 +14,6 @@ const BeginPage = () => {
     navigate("/create-game");
   };
 
-  const handleTooltipClick = () => {
-    setShowTooltip(!showTooltip);
-  };
-
   return (
     <div className="grid grid-rows-custom grid-cols-custom min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100 p-4 relative">
       <div className="absolute top-4 left-4">
@@ -25,7 +21,9 @@ const BeginPage = () => {
           src="/question_mark.png"
           alt="Help"
           className="h-16 w-16 cursor-pointer"
+          onClick={() => setIsModalOpen(true)}
         />
+        <HelpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
 
       <div className="col-start-2 col-end-4 flex flex-col items-center">
@@ -67,13 +65,13 @@ const BeginPage = () => {
           onClick={handlePlayClick}
           className="bg-yellow-500 text-white mb-6 px-6 py-3 text-xl sm:text-2xl rounded-lg hover:bg-yellow-600"
         >
-          Generate a bingo card
+          speel een kaart met een thema
         </button>
         <button
           onClick={handleCreateYourOwnGame}
-          className="bg-orange-500 text-white mb-6 px-5 py-3 text-xl sm:text-2xl rounded-lg hover:bg-orange-600"
+          className="bg-orange-500 text-white mb-6 px-6 py-3 text-xl sm:text-2xl rounded-lg hover:bg-orange-600"
         >
-          Create Your Own Game
+          maak je eigen bingokaart
         </button>
       </div>
     </div>

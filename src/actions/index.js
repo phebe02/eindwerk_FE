@@ -13,6 +13,10 @@ export const setGameSettings = (settings) => ({
 export const resetBingo = () => ({
   type: "RESET_BINGO",
 });
+export const loadSavedState = (state) => ({
+  type: "LOAD_SAVED_STATE",
+  payload: state,
+});
 
 //actions for the cutstom bingo cards
 export const markCustomItem = (row, col) => ({

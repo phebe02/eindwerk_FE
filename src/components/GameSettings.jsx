@@ -16,16 +16,19 @@ const GameSettings = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100 p-4 relative">
-      <div
-        id="sprite"
-        className="absolute top-4 right-4 w-8 h-8 sm:w-10 sm:h-10"
-      ></div>
-      <h1 className="text-3xl sm:text-4xl font-bold text-red-600 mb-6">
-        Game Settings
+      <a href="/">
+        <img
+          src="/roadtrip_game_logo.png"
+          alt="Logo"
+          className="absolute top-2 left-2 h-20"
+        />
+      </a>
+      <h1 className="text-2xl sm:text-5xl font-bold text-red-600 mb-6 top-4 absolute">
+        Thema en grootte <br /> kiezen
       </h1>
       <div className="mb-6 w-full max-w-md">
         <label className="block text-red-600 font-bold mb-2" htmlFor="theme">
-          Theme:
+          Thema:
         </label>
         <select
           id="theme"
@@ -38,7 +41,9 @@ const GameSettings = () => {
         </select>
       </div>
       <div className="mb-6 w-full max-w-md">
-        <label className="block text-red-600 font-bold mb-2">Grid Size:</label>
+        <label className="block text-red-600 font-bold mb-2">
+          Rastergrootte:
+        </label>
         <div className="flex flex-col sm:flex-row sm:space-x-4">
           <label className="inline-flex items-center mb-2 sm:mb-0">
             <input
@@ -76,8 +81,16 @@ const GameSettings = () => {
         onClick={handlePlay}
         className="bg-orange-500 text-white px-6 py-3 text-lg sm:text-xl rounded-lg hover:bg-orange-600"
       >
-        Play
+        START
       </button>
+      <div>
+        <button
+          className="absolute bottom-2 left-2 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+          onClick={() => navigate("/")}
+        >
+          beginpagina
+        </button>
+      </div>
     </div>
   );
 };

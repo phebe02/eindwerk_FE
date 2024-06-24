@@ -68,7 +68,14 @@ const CustomBingo = () => {
             {bingoMessage}
           </h1>
         )}
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 pb-2">
+          <a href="/">
+            <img
+              src="/roadtrip_game_logo.png"
+              alt="Logo"
+              className="absolute top-2 left-2 h-20"
+            />
+          </a>
           <h1 className="text-3xl sm:text-4xl font-bold text-red-600">
             {title}
           </h1>
