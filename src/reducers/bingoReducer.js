@@ -124,7 +124,7 @@ const bingoReducer = (state = initialState, action) => {
     case "MARK_ITEM":
       const { row, col } = action.payload;
       const newMarked = state.marked.map((r, i) =>
-        r.map((c, j) => (i === row && j === col ? true : c))
+        r.map((c, j) => (i === row && j === col ? !c : c))
       );
       const { newBingo, updatedBingos } = checkBingo(
         newMarked,
@@ -141,6 +141,7 @@ const bingoReducer = (state = initialState, action) => {
         ...state,
         bingo: false,
       };
+
     case "LOAD_SAVED_STATE":
       return {
         ...state,

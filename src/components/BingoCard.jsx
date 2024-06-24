@@ -24,10 +24,7 @@ const BingoCard = () => {
   }, [bingo, bingoMessage, bingoChecked]);
 
   const handleClick = (row, col) => {
-    if (
-      !completedBingos.includes(`row${row}`) &&
-      !completedBingos.includes(`col${col}`)
-    ) {
+    if (!bingo) {
       dispatch(markItem(row, col));
       setBingoChecked(false);
     }
@@ -72,11 +69,11 @@ const BingoCard = () => {
                     <td
                       key={colIndex}
                       onClick={() => handleClick(rowIndex, colIndex)}
-                      className={`w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 border-2 border-red-400 text-center align-middle cursor-pointer ${
+                      className={`w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 border-2 border-red-400 text-center align-middle  ${
                         marked[rowIndex][colIndex]
                           ? "bg-red-200 line-through"
                           : "bg-white"
-                      }`}
+                      } ${bingo ? "cursor-not-allowed" : "cursor-pointer"}`}
                     >
                       {item}
                     </td>
@@ -90,7 +87,7 @@ const BingoCard = () => {
           <div className="flex flex-row space-x-2 sm:space-x-4 ">
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mb-2 sm:mb-0"
-              onClick={() => navigate("/")}
+              onClick={() => nav("/")}
             >
               beginpagina
             </button>
@@ -113,5 +110,4 @@ const BingoCard = () => {
     </body>
   );
 };
-
 export default BingoCard;

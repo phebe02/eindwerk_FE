@@ -71,7 +71,7 @@ const customBingoReducer = (state = initialCustomState, action) => {
     case "MARK_CUSTOM_ITEM":
       const { row, col } = action.payload;
       const newMarked = state.marked.map((r, i) =>
-        r.map((c, j) => (i === row && j === col ? true : c))
+        r.map((c, j) => (i === row && j === col ? !c : c))
       );
       const { newBingo, updatedBingos } = checkBingo(
         newMarked,
