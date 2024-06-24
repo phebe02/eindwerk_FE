@@ -12,7 +12,8 @@ const config = {
   width: "15px",
   height: "14px",
   perspective: "500px",
-  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+  colors: ["#DC2626", "#F87171", "#B91C1C", "#15803D", "#C2410C", "#FFD700"],
+  shapes: ["circle", "square"],
 };
 
 const ConfettiComponent = ({ trigger }) => {
