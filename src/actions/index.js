@@ -32,3 +32,7 @@ export const setCustomGame = (gridSize, card, title) => ({
 export const resetCustomBingo = () => ({
   type: "RESET_CUSTOM_BINGO",
 });
+
+export const resumeCustomGame = () => ({
+  type: "RESUME_CUSTOM_GAME",
+});

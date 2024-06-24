@@ -23,8 +23,8 @@ const GameSettings = () => {
           className="absolute top-2 left-2 h-20"
         />
       </a>
-      <h1 className="text-2xl sm:text-5xl font-bold text-red-600 mb-6 top-4 absolute">
-        Thema en grootte <br /> kiezen
+      <h1 className="text-xl ml-10 sm:text-5xl md:text-6xl md:ml-16 md:top-3 font-bold text-red-600 mb-6 top-6 absolute">
+        Thema en grootte kiezen
       </h1>
       <div className="mb-6 w-full max-w-md">
         <label className="block text-red-600 font-bold mb-2" htmlFor="theme">

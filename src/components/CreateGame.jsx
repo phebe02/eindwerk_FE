@@ -5,6 +5,7 @@ const CreateGame = () => {
   const [gridSize, setGridSize] = useState(null);
   const [inputValues, setInputValues] = useState([]);
   const [title, setTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // Voor foutmelding
   const navigate = useNavigate();
 
   const handleGridSizeChange = (size) => {
@@ -13,13 +14,23 @@ const CreateGame = () => {
   };
 
   const handleInputChange = (index, value) => {
-    const newValues = [...inputValues];
-    newValues[index] = value;
-    setInputValues(newValues);
+    if (value.length > 15) {
+      setErrorMessage("Woorden mogen niet langer zijn dan 15 tekens.");
+    } else {
+      setErrorMessage("");
+      const newValues = [...inputValues];
+      newValues[index] = value;
+      setInputValues(newValues);
+    }
   };
 
   const handleGenerate = () => {
-    navigate("/custom-bingo", { state: { gridSize, inputValues, title } });
+    if (inputValues.some((value) => value.length > 15)) {
+      setErrorMessage("Alle woorden moeten 15 tekens of korter zijn.");
+    } else {
+      setErrorMessage("");
+      navigate("/custom-bingo", { state: { gridSize, inputValues, title } });
+    }
   };
 
   const allFieldsFilled =
@@ -34,19 +45,26 @@ const CreateGame = () => {
           className="absolute top-2 left-2 h-20"
         />
       </a>
-      <h1 className="text-2xl mb-4">Create Your Own Bingo Game</h1>
+      <h1 className="md:text-5xl sm:text-3xl font-bold text-red-600 mb-7 mt-3 ">
+        Maak je eigen bingokaart
+      </h1>
       <div className="mb-4">
-        <label className="block mb-2 text-lg">Enter Title:</label>
+        <label className="block text-lg text-red-600 font-bold mb-2">
+          kies een titel:
+        </label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border p-2 mb-4 w-full"
-          placeholder="Bingo Card Title"
+          className="border p-2 mb-4 w-full border-red-400"
+          placeholder="Bingokaart titel"
+          maxLength={30}
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-2 text-lg">Select Grid Size:</label>
+        <label className="block text-lg text-red-600 font-bold mb-2">
+          Kies Rastergrootte:{" "}
+        </label>
         <div className="mb-4">
           <label className="mr-4">
             <input
@@ -93,6 +111,7 @@ const CreateGame = () => {
           ))}
         </div>
       )}
+      {errorMessage && <p className="text-red-600 mt-2">{errorMessage}</p>}
       {gridSize && (
         <button
           onClick={handleGenerate}
@@ -101,7 +120,7 @@ const CreateGame = () => {
           }`}
           disabled={!allFieldsFilled}
         >
-          Generate Bingo Card
+          genereer een bingokaart
         </button>
       )}
       <div>

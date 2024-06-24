@@ -88,6 +88,11 @@ const customBingoReducer = (state = initialCustomState, action) => {
         ...state,
         bingo: false,
       };
+    case "RESUME_CUSTOM_GAME":
+      return {
+        ...state,
+        bingo: false,
+      };
     default:
       return state;
   }
