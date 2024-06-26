@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setGameSettings } from "../actions";
+import { setGameSettings } from "../reducers/bingoReducer";
+import { useGetThemesQuery } from "../data/ApiSlice";
+import bingoApi from "../data/ApiSlice";
 
 const GameSettings = () => {
-  const [theme, setTheme] = useState("default");
+  const [themeId, setThemeId] = useState("");
   const [gridSize, setGridSize] = useState(4);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { data: themes, error, isLoading } = useGetThemesQuery();
+
+  useEffect(() => {
+    if (themes && themes.length > 0) {
+      setThemeId(themes[0].id); // Stel het eerste thema-ID in als standaard
+    }
+  }, [themes]);
 
   const handlePlay = () => {
-    dispatch(setGameSettings({ theme, gridSize }));
-    navigate("/bingo");
+    dispatch(setGameSettings({ themeId, gridSize }));
+    dispatch(bingoApi.endpoints.getThemeWords.initiate(themeId)).then(() => {
+      navigate("/bingo");
+    });
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading themes</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-yellow-200 to-yellow-100 p-4 relative">
@@ -32,12 +46,16 @@ const GameSettings = () => {
         </label>
         <select
           id="theme"
-          value={theme}
-          onChange={(e) => setTheme(e.target.value)}
+          value={themeId}
+          onChange={(e) => setThemeId(e.target.value)}
           className="bg-white border-2 border-red-400 p-2 rounded w-full"
         >
-          <option value="default">Default</option>
-          <option value="roadtrip">Roadtrip</option>
+          {themes &&
+            themes.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.thema}
+              </option>
+            ))}
         </select>
       </div>
       <div className="mb-6 w-full max-w-md">

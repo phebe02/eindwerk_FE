@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App.jsx";
-import store from "./store";
+import store from "./data/store.js";
 import BeginPage from "./components/beginPage.jsx";
 import GameSettings from "./components/GameSettings.jsx";
 import BingoCard from "./components/BingoCard.jsx";

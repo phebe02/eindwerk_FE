@@ -1,57 +1,22 @@
+import { createSlice } from "@reduxjs/toolkit";
+import bingoApi from "../data/ApiSlice"; // Verwijs naar de juiste locatie van ApiSlice
+
 const initialState = {
   card: [],
   marked: [],
   bingo: false,
-  theme: "default",
+  themeId: null,
   gridSize: 4,
   completedBingos: [],
+  words: [],
 };
 
-const createCard = (size) => {
-  const items = [
-    "yellow car",
-    "gas station",
-    "police car",
-    "restaurant",
-    "hotel",
-    "tree",
-    "road sign",
-    "bridge",
-    "motorcycle",
-    "traffic light",
-    "bicycle",
-    "plane",
-    "boat",
-    "cow",
-    "dog",
-    "billboard",
-    "river",
-    "park",
-    "playground",
-    "bus stop",
-    "post office",
-    "library",
-    "museum",
-    "bank",
-    "church",
-    "school",
-    "shopping mall",
-    "stadium",
-    "cinema",
-    "theater",
-    "hospital",
-    "fire station",
-    "court house",
-    "pharmacy",
-    "bakery",
-    "restaurant",
-  ];
-
+export const createCard = (size, words) => {
   const totalItemsNeeded = size * size;
-
-  const shuffledItems = items.sort(() => 0.5 - Math.random());
-
-  const cardItems = shuffledItems.slice(0, totalItemsNeeded);
+  const shuffledWords = [...words].sort(() => 0.5 - Math.random()); // Maak een kopie van de array voordat je sorteert
+  const cardItems = shuffledWords
+    .slice(0, totalItemsNeeded)
+    .map((wordObj) => wordObj.woord);
 
   let card = [];
   for (let i = 0; i < size; i++) {
@@ -106,50 +71,60 @@ const checkBingo = (marked, completedBingos) => {
   return { newBingo, updatedBingos };
 };
 
-const bingoReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "SET_GAME_SETTINGS":
-      const { theme, gridSize } = action.payload;
-      return {
-        ...state,
-        theme,
-        gridSize,
-        card: createCard(gridSize),
-        marked: Array(gridSize)
-          .fill()
-          .map(() => Array(gridSize).fill(false)), // Properly reset marked array
-        bingo: false,
-        completedBingos: [],
-      };
-    case "MARK_ITEM":
+const bingoSlice = createSlice({
+  name: "bingo",
+  initialState,
+  reducers: {
+    setGameSettings(state, action) {
+      const { themeId, gridSize } = action.payload;
+      state.themeId = themeId;
+      state.gridSize = gridSize;
+      state.bingo = false;
+      state.completedBingos = [];
+      state.marked = Array(gridSize)
+        .fill()
+        .map(() => Array(gridSize).fill(false));
+    },
+    markItem(state, action) {
       const { row, col } = action.payload;
-      const newMarked = state.marked.map((r, i) =>
-        r.map((c, j) => (i === row && j === col ? !c : c))
-      );
+      state.marked[row][col] = !state.marked[row][col];
       const { newBingo, updatedBingos } = checkBingo(
-        newMarked,
+        state.marked,
         state.completedBingos
       );
-      return {
-        ...state,
-        marked: newMarked,
-        bingo: newBingo,
-        completedBingos: updatedBingos,
-      };
-    case "RESET_BINGO":
-      return {
-        ...state,
-        bingo: false,
-      };
-
-    case "LOAD_SAVED_STATE":
+      state.bingo = newBingo;
+      state.completedBingos = updatedBingos;
+    },
+    resetBingo(state) {
+      state.bingo = false;
+    },
+    loadSavedState(state, action) {
       return {
         ...state,
         ...action.payload,
       };
-    default:
-      return state;
-  }
-};
+    },
+    setCard(state, action) {
+      state.card = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      bingoApi.endpoints.getThemeWords.matchFulfilled,
+      (state, action) => {
+        const words = action.payload;
+        state.words = words;
+        state.card = createCard(state.gridSize, words);
+      }
+    );
+  },
+});
 
-export default bingoReducer;
+export const {
+  setGameSettings,
+  markItem,
+  resetBingo,
+  loadSavedState,
+  setCard,
+} = bingoSlice.actions;
+export default bingoSlice.reducer;
